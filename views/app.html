@@ -1,0 +1,17 @@
+{% extends "main.html" %}
+
+{% block maincontent %}
+<h1>Cloud Computing</h1>
+<h2>Assignment 1 : Task II</h2>
+		
+		{% if not user %}
+          
+        {% else %}
+        <h3>Username: <span style="background-color: OldLace" >{{ name }}</span></h3>
+		  <h4><a href="/forgot">Change password</a><h4>
+		  <h4><a href="/name">Change name</a><h4>
+        {% endif %}
+
+<!--<p><b>Find more information in the tutorial <a href="http://blog.abahgat.com/2013/01/07/user-authentication-with-webapp2-on-google-app-engine">here</a>.</b></p>-->
+
+{% endblock %}
