@@ -350,16 +350,8 @@ class SetPasswordHandler(BaseHandler):
         self._serve_page(True)
     except (InvalidAuthIdError, InvalidPasswordError) as e:
       logging.info('Login failed for user %s because of %s', user.username, type(e))
-      self.display_message("Old password incorrect")
-      #self._serve_page(True)
-    # user.set_password(password)
-    # user.put()
-
-    # # remove signup token, we don't want users to come back with an old link
-    # self.user_model.delete_signup_token(user.get_id(), old_token)
-    
-    # #self.display_message('Password updated')
-    # self._serve_page(True)
+      #
+ 
 
   def _serve_page(self, failed=False):
     username = self.request.get('username')
@@ -367,7 +359,13 @@ class SetPasswordHandler(BaseHandler):
       'username': username,
       'failed': failed
       }
-    self.render_template('home.html', params)
+    self.render_template('login.html', params)
+  
+  def _handle_fail(self, failed=True):
+    params = {
+      'failed': failed
+    }
+    self.render_template('resetpassword.html', params)
 
 class LoginHandler(BaseHandler):
   def get(self):
