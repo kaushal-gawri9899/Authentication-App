@@ -350,7 +350,7 @@ class SetPasswordHandler(BaseHandler):
         self._serve_page(True)
     except (InvalidAuthIdError, InvalidPasswordError) as e:
       logging.info('Login failed for user %s because of %s', user.username, type(e))
-      #
+      self._handle_fail(True)
  
 
   def _serve_page(self, failed=False):
