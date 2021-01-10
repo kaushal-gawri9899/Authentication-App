@@ -2,21 +2,21 @@
 
 {% block maincontent %}
 
-<h1>Login</h1>
+<h1 style="color:Beige;">Login</h1>
 
 {% if failed %}
 
-    <strong>Login failed!</strong> Check your credentials and try again.
+    <strong style="color:Red;">Login failed!</strong> Check your credentials and try again.
 
 {% endif %}
 
 <form class="form" action= "/login" method="POST">
 	<div>
-	<label for="username">User Id: </label>
+	<label style="color:Snow;" for="username">User Id: </label>
 	<input type="text" id="username" value="{{ username }}" name="username" placeholder="Enter user id"/>
 	</div>
 	<div>
-	<label for="password">Password: </label>
+	<label style="color:Snow;" for="password">Password: </label>
 	<input type="password" id="password" name="password" placeholder="Enter password"/>
 	</div>
 	<button type="submit" class="btn">Login</button>
@@ -24,6 +24,14 @@
 </form>
 
 <!--<a href="/forgot">Forgot password</a>-->
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 
 {% endblock %}
