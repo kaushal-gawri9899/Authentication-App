@@ -1,30 +1,28 @@
 {% extends "main.html" %}
 
 {% block maincontent %}
-<h1>Cloud Computing</h1>
-<h2>Assignment 1 : Task II</h2>
+<h1 style="color:Thistle;">Cloud Computing</h1>
+<h2 style="color:Thistle;">Assignment 1 : Task II</h2>
 
-<p>Hey There, I am Kaushal Gawri, a computer science student at RMIT University, Melbourne.</p>
-<p>I am currently enrolled in cloud computing for the summer semester</p>
-<p>This is a demonstration of how user login/logout along with authenticating the passwords stored in datastore works.</p>
+<p style="color:Thistle;">Hey There, I am Kaushal Gawri, a computer science student at RMIT University, Melbourne.</p>
+<p style="color:Thistle;">I am currently enrolled in cloud computing for the summer semester</p>
+<p style="color:Thistle;">This is a demonstration of how user login/logout along with authenticating the passwords stored in datastore works.</p>
 
 
-<p>The following is the list of tasks involved for the current task:</p>
+<p style="color:Beige;">The following is the list of tasks involved for the current task:</p>
 <ol>
-<li>A Login page containing a user id field, a password field and a Log In Button</li>
-<li>A main page where user is redirected upon successfull login, providing two buttons: "Change Password" and "Change Name"</li>
-<li>The name page provides a field to enter new username. Updated if the username entered is not empty</li>
-<li>The password page provides two fields for old password and new password. Updated upon validation</li>
+<li style="color:Beige;">A Login page containing a user id field, a password field and a Log In Button</li>
+<li style="color:Beige;">A main page where user is redirected upon successfull login, providing two buttons: "Change Password" and "Change Name"</li>
+<li style="color:Beige;">The name page provides a field to enter new username. Updated if the username entered is not empty</li>
+<li style="color:Beige;">The password page provides two fields for old password and new password. Updated upon validation</li>
 </ol>
-
-<p>Try it out by registering <a href="/signup">here</a>.</p>
 		
 		{% if not user %}
           
         {% else %}
-        <h3>Username: <span style="background-color: OldLace" >{{ user.name }}</span></h3>
-		  <h4><a href="/forgot">Change password</a><h4>
-		  <h4><a href="/name">Change name</a><h4>
+        <h3 style="color:LightSteelBlue">Username: <span style="background-color: OldLace; color:black" >{{ user.name }}</span></h3>
+		  <h4 style="color:Silver"><a href="/forgot">Change password</a><h4>
+		  <h4 style="color:Silver"><a href="/name">Change name</a><h4>
         {% endif %}
 
 <!--<p><b>Find more information in the tutorial <a href="http://blog.abahgat.com/2013/01/07/user-authentication-with-webapp2-on-google-app-engine">here</a>.</b></p>-->
