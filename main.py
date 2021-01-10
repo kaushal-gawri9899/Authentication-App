@@ -6,6 +6,7 @@ from google.appengine.ext import ndb
 import logging
 import os.path
 import webapp2
+import time
 
 from webapp2_extras import auth
 from webapp2_extras import sessions
@@ -103,6 +104,9 @@ class MainHandler(BaseHandler):
   def get(self):
     self.render_template('home.html')
 
+# class UserMainHandler(BaseHandler):
+#   def get(self):
+#     self.render_template('app.html')
 #
 class SignupHandler(BaseHandler):
   def get(self):
@@ -110,20 +114,10 @@ class SignupHandler(BaseHandler):
 
   def post(self):
     user_name = self.request.get('username')
-    #email = self.request.get('email')
     uuid = self.request.get('uuid')
     name = self.request.get('name')
     password = self.request.get('password')
-    #last_name = self.request.get('lastname')
 
-    
-    # unique_properties = ['email_address']
-    # unique_properties = ['uid']
-    # user_data = self.user_model.create_user(user_name,
-    #   unique_properties,
-    #   email_address=email, name=name, password_raw=password,
-    #   last_name=last_name, verified=False)
-    #user_data = self.user_model.create_user(user_name,unique_properties=[],username=user_name, uuid=uuid, name=name, password_raw=password, verified=False)
     user_data = self.user_model.create_user(uuid,unique_properties=[],username=user_name, uuid=uuid, name=name, password_raw=password, verified=False)
     if not user_data[0]: #user_data is a tuple
       self.display_message('Unable to create user for email %s because of \
@@ -132,8 +126,6 @@ class SignupHandler(BaseHandler):
     
     user = user_data[1]
     user_id = user.get_id()
-   # user.uid = self.request.get('uid')
-    #user.password = password
     user.username = user_name
     user.uuid = uuid
     user.put()
@@ -148,7 +140,6 @@ class SignupHandler(BaseHandler):
 
     # self.display_message(msg.format(url=verification_url))
     self.redirect(self.uri_for('home'))
-
 
 class ForgotPasswordHandler(BaseHandler):
   def get(self):
@@ -222,20 +213,15 @@ class SetUserNameHandler(BaseHandler):
     old_token = self.request.get('t')
 
     if not new_username:
-      self.display_message('username cannot be empty')
+      #self.display_message('username cannot be empty')
+      self._handle_fail(True)
       return
+     # return
 
     user = self.user
-    #user.username = new_username
-    #user.name = new_username
-    #user.username = new_username
-    #user.name = new_username
     user.name = new_username
     
     user.put()
-
-    #self.display_message(user.username)
-    #self.display_message(user.name)
     # remove signup token, we don't want users to come back with an old link
     self.user_model.delete_signup_token(user.get_id(), old_token)
     
@@ -249,6 +235,12 @@ class SetUserNameHandler(BaseHandler):
         'failed': failed
         }
     self.render_template('app.html', params)
+
+  def _handle_fail(self, failed=False):
+    params = {
+        'failed': failed
+    }
+    self.render_template('resetusername.html', params)
 
 # class VerificationHandler(BaseHandler):
 #   def get(self, *args, **kwargs):
@@ -299,14 +291,6 @@ class SetPasswordHandler(BaseHandler):
   def post(self):
     
     old_password = self.request.get('old_password')
-    # username = self.request.get('username')
-    # try:
-    #   old_new_password = self.auth.get_user_by_password(username,old_password)
-    # except (InvalidAuthIdError, InvalidPasswordError) as e:
-    #   logging.info('password change failed', username, type(e))
-    #   self._serve_page(True)
-      
-    #old_password = self.request.get('old_password')
     password = self.request.get('password')
     old_token = self.request.get('t')
 
@@ -314,35 +298,7 @@ class SetPasswordHandler(BaseHandler):
       self.display_message('passwords do not match')
       return
 
-
-    #if old_password != self.user.:
-      #self.display_message('Wrong old password')
-      #return 
-    
-
     user = self.user
-    # pword = user.get_current_user.get_password
-    # pword = users.get_current_user.password()
-    # # #if old_password != self.user_model.get_password():
-    # if old_password != pword:
-    #   self.display_message('password incorrect')
-    #   return
-
-    # try:
-    #   u = self.auth.get_user_by_password(user.username, old_password, remember=True,
-    #     save_session=True)
-    #   user.set_password(password)
-    #   user.put()
-    #   # remove signup token, we don't want users to come back with an old link
-    #   self.user_model.delete_signup_token(user.get_id(), old_token)
-    #   #self.display_message('Password updated')
-    #   self._serve_page(True)
-    # except (InvalidAuthIdError, InvalidPasswordError) as e:
-    #   logging.info('Login failed for user %s because of %s', user.username, type(e))
-    #   self.display_message(user.username)
-    #   self.display_message('Failed to Reset')
-      #self._serve_page(True)
-    
     
     try:
       if self.auth.get_user_by_password(user.uuid, old_password, remember=True, save_session=True):
@@ -351,10 +307,11 @@ class SetPasswordHandler(BaseHandler):
         self.user_model.delete_signup_token(user.get_id(), old_token)
         self._serve_page(True)
     except (InvalidAuthIdError, InvalidPasswordError) as e:
-      logging.info('Login failed for user %s because of %s', user.username, type(e))
-      self._handle_fail(True)
- 
-
+        logging.info('Login failed for user %s because of %s', user.username, type(e))
+        self._handle_fail(True)
+        # time.sleep(5)
+        # self._redirect_home(True)
+        
   def _serve_page(self, failed=False):
     username = self.request.get('username')
     params = {
@@ -368,6 +325,11 @@ class SetPasswordHandler(BaseHandler):
       'failed': failed
     }
     self.render_template('resetpassword.html', params)
+  
+  def _redirect_home(self, failed=False):
+    self.render_template('home.html')
+  
+
 
 class LoginHandler(BaseHandler):
   def get(self):
@@ -415,8 +377,6 @@ config = {
 app = webapp2.WSGIApplication([
     webapp2.Route('/', MainHandler, name='home'),
     webapp2.Route('/signup', SignupHandler),
-    # webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>',
-    #   handler=VerificationHandler, name='verification'),
     webapp2.Route('/password', SetPasswordHandler),
     webapp2.Route('/username', SetUserNameHandler),
     webapp2.Route('/login', LoginHandler, name='login'),
