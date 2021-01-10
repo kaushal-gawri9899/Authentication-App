@@ -2,7 +2,7 @@
 
 {% block maincontent %}
 
-<h1>Reset password</h1>
+<h1 style="color:Beige;">Reset password</h1>
 <style>
 div {
         margin-bottom: 10px;
@@ -27,18 +27,30 @@ div {
 	<input type="hidden" name="t" value="{{ token }}" />
     <input type="submit" value="Update password" />
 	-->
-	<div>
-        <label for="old_username">Current Username</label>
-        <input type="text" id="old_username" name="old_username" placeholder="Enter current username" />
-      </div>
       <div>
-        <label for="new_username">New Username</label>
+        <label style="color:Snow" for="new_username">New Username</label>
         <input type="text" id="new_username" name="new_username" placeholder="Enter new password" />
       </div>
-      <input type="hidden" name="t" value="{{ token }}" />
+      <input style="color:Snow" type="hidden" name="t" value="{{ token }}" />
       <input type="submit" value="Update username" />
 </form>
 
+{% if failed %}
+
+    <strong style="color:Red">Username Cannot be Empty!</strong><p style="color:Red">Try Again. <a style="color:White" href="/">  Click Here to go back!</a></p>
+	
+
+{% endif %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 
 {% endblock %}
