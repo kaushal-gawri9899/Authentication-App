@@ -1,0 +1,56 @@
+{% extends "main.html" %}
+
+{% block maincontent %}
+
+<h1 style="color:Beige;">Reset password</h1>
+<style>
+div {
+        margin-bottom: 10px;
+      }
+      label {
+        display: inline-block;
+        width: 150px;
+      }
+</style>
+
+<form action="/username" method="post">
+  <!--  <label>Select password</label>
+	<div>
+	<label>Old</label>
+	<input type="text" name="old_password" />
+	</div>
+		<!--<input type="submit" value="switch">-->
+	<!--<input type="password" name="old_password"/>-->
+	<!--
+	<input type="password" name="password" />
+	<input type="password" name="confirm_password" />
+	<input type="hidden" name="t" value="{{ token }}" />
+    <input type="submit" value="Update password" />
+	-->
+      <div>
+        <label style="color:Snow" for="new_username">New Username</label>
+        <input type="text" id="new_username" name="new_username" placeholder="Enter new password" />
+      </div>
+      <input style="color:Snow" type="hidden" name="t" value="{{ token }}" />
+      <input type="submit" value="Update username" />
+</form>
+
+{% if failed %}
+
+    <strong style="color:Red">Username Cannot be Empty!</strong><p style="color:Red">Try Again. <a style="color:White" href="/">  Click Here to go back!</a></p>
+	
+
+{% endif %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+{% endblock %}
